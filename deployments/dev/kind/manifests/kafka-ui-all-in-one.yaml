@@ -71,6 +71,9 @@ spec:
           - name: DYNAMIC_CONFIG_ENABLED
             value: "true"
 
+          - name: JAVA_TOOL_OPTIONS
+            value: "-Xms128m -Xmx256m"
+
           - name: KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS
             value: kafka-e11b-kafka-bootstrap.kafka.svc.cluster.local:9092
 
@@ -79,31 +82,35 @@ spec:
 
           image: provectuslabs/kafka-ui:latest
 
-          livenessProbe:
-            failureThreshold: 3
-            httpGet:
-              path: /
-              port: 8080
-            initialDelaySeconds: 0
-            periodSeconds: 10
-            timeoutSeconds: 1
+          
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: 8080
+          #     scheme: HTTP
+          #   initialDelaySeconds: 60
+          #   periodSeconds: 10
+          #   timeoutSeconds: 5
+          #   failureThreshold: 3
 
           name: kafka-ui
 
           readinessProbe:
-            failureThreshold: 3
             httpGet:
               path: /
               port: 8080
-            initialDelaySeconds: 0
+              scheme: HTTP
+            initialDelaySeconds: 30
             periodSeconds: 10
-            timeoutSeconds: 1
+            timeoutSeconds: 5
+            failureThreshold: 3
 
           resources:
             limits:
-              memory: 1Gi
+              memory: 512Mi
             requests:
               cpu: 10m
+              memory: 384Mi
 
           securityContext:
             allowPrivilegeEscalation: false

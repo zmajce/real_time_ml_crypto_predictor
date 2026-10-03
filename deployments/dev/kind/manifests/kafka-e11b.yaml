@@ -21,6 +21,16 @@ spec:
   roles:
     - controller
     - broker
+  # Memory budget for the local development cluster.
+  resources:
+    requests:
+      cpu: 250m
+      memory: 768Mi
+    limits:
+      memory: 1Gi
+  jvmOptions:
+    -Xms: 256m
+    -Xmx: 512m
   storage:
     type: jbod
     volumes:
@@ -41,7 +51,7 @@ metadata:
     strimzi.io/kraft: enabled
 spec:
   kafka:
-    version: 3.9.0
+    version: 4.2.0
     metadataVersion: 3.9-IV0
     listeners:
       - name: plain
